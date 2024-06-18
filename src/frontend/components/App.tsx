@@ -1,10 +1,10 @@
 import React, {FC} from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import Home from './pages/Home';
-import ProductEntry from './pages/ProductEntry';
-import ProductMovements from './pages/ProductMovements';
+import Home from './Home';
+import ProductEntry from './ProductEntry';
+import ProductMovements from './ProductMovements';
 
-export enum RoutePaths {
+enum RoutePaths {
     Home = '/',
     ProductEntry = '/product-entry',
     ProductMovements = '/products-movements',
@@ -35,11 +35,13 @@ const App: FC = () => {
                         </div>
                     </div>
                 </nav>
-                <Routes>
-                    <Route path={RoutePaths.Home} element={<Home />} />
-                    <Route path={RoutePaths.ProductEntry} element={<ProductEntry />} />
-                    <Route path={RoutePaths.ProductMovements} element={<ProductMovements />} />
-                </Routes>
+                <div className="container mt-3">
+                    <Routes>
+                        <Route path={RoutePaths.Home} element={<Home />} />
+                        <Route path={RoutePaths.ProductEntry} element={<ProductEntry />} />
+                        <Route path={RoutePaths.ProductMovements} element={<ProductMovements />} />
+                    </Routes>
+                </div>
             </Router>
         </>
     );
