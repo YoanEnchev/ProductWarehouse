@@ -3,11 +3,12 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Home from './Home';
 import ProductEntry from './ProductEntry';
 import ProductMovements from './ProductMovements';
+import NotFoundRoute from './NotFoundRoute';
 
 enum RoutePaths {
-    Home = '/',
-    ProductEntry = '/product-entry',
-    ProductMovements = '/products-movements',
+    Home = '/app/',
+    ProductEntry = '/app/product-entry',
+    ProductMovements = '/app/products-movements',
 }
 
 const App: FC = () => {
@@ -40,6 +41,7 @@ const App: FC = () => {
                         <Route path={RoutePaths.Home} element={<Home />} />
                         <Route path={RoutePaths.ProductEntry} element={<ProductEntry />} />
                         <Route path={RoutePaths.ProductMovements} element={<ProductMovements />} />
+                        <Route path="*" element={<NotFoundRoute/>}/>
                     </Routes>
                 </div>
             </Router>

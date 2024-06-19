@@ -10,6 +10,18 @@ export class WarehouseService {
     private warehouseRepository: Repository<Warehouse>,
   ) {}
 
+  findAll(): Promise<Warehouse[]|null> {
+    return this.warehouseRepository.find();
+  }
+
+  findByID(id: number): Promise<Warehouse|null> {
+    return this.warehouseRepository.findOne({
+      where: {
+        id: id,
+      },
+    });
+  }
+
   getExportableWarehousesForProductUnit(productId: string, warehouseId): Promise<Warehouse[]|null> {
     return this.warehouseRepository.find({
       where: {},
