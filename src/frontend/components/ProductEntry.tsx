@@ -1,8 +1,19 @@
 import React, { FC, ChangeEvent, FormEvent, useState } from 'react';
+import { gql, useMutation } from '@apollo/client';
 import getAppBaseURL from '../helpers/getAppBaseURL';
 
-const ProductEntry: FC = () => {
+const CREATE_PRODUCT_MUTATION = gql`
+  mutation CreateProduct($input: CreateProductDto!) {
+    createProduct(createProductDto: $input) {
+      name
+      sizePerUnit
+      amountOfUnitsOutsideOfWarehouses
+      isHazardous
+    }
+  }
+`;
 
+const ProductEntry: FC = () => {
     const [name, setName] = useState<string>('');
     const [sizePerUnit, setSizePerUnit] = useState<string>('');
     const [amount, setAmount] = useState<string>('');
@@ -12,37 +23,34 @@ const ProductEntry: FC = () => {
     const [showSuccessMessage, setShowSuccessMessage] = useState<boolean>(false);
     const [isLoading, setLoading] = useState<boolean>(false);
 
+    const [createProduct] = useMutation(CREATE_PRODUCT_MUTATION, {
+        onCompleted: () => {
+          setShowSuccessMessage(true);
+          setFormSubmitErrorMessage('');
+          setLoading(false);
+        },
+        onError: (error) => {
+          // @ts-ignore
+          setFormSubmitErrorMessage(error.graphQLErrors[0].extensions.originalError.message[0]);
+          setShowSuccessMessage(false);
+          setLoading(false);
+        },
+      });
+
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setLoading(true)
+        setLoading(true);
 
-        try {
-            const res: Response = await fetch(`${getAppBaseURL()}/auth/register`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    name,
-                    sizePerUnit,
-                    amount,
-                    isHazardous
-                }),
-            })
-
-            if (res.ok) {
-                setShowSuccessMessage(true);
-                return;
-            }
-
-            res.json().then(errResponse => setFormSubmitErrorMessage(errResponse.message));
-        }
-        catch (error) {
-            setFormSubmitErrorMessage('Service not available. Please try again later.')
-        }
-        finally {
-            setLoading(false)
-        }
+        createProduct({
+          variables: {
+            input: {
+              name: name,
+              sizePerUnit: parseInt(sizePerUnit),
+              amountOfUnitsOutsideOfWarehouses: parseInt(amount),
+              isHazardous: isHazardous,
+            },
+          },
+        });
     };
 
     const formFieldChange = () => {
@@ -61,13 +69,13 @@ const ProductEntry: FC = () => {
     };
 
     const handleAmountChange = (event: ChangeEvent<HTMLInputElement>) => {
-      setAmount(event.target.value);
-      formFieldChange();
+        setAmount(event.target.value);
+        formFieldChange();
     };
 
     const handleHazardousChange = (event: ChangeEvent<HTMLInputElement>) => {
-      setIsHazardous(event.target.checked);
-      formFieldChange();
+        setIsHazardous(event.target.checked);
+        formFieldChange();
     };
 
     return <form method="post" onSubmit={handleSubmit}>

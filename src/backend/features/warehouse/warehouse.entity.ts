@@ -44,7 +44,6 @@ export class Warehouse {
 
   @Field(type => Int, { nullable: true })
   get freeCapacityRemaining(): number {
-    console.log('>>>>>>>>>freeCapacityRemaining>>>>>>>>>');
     return this.capacity - (this.productWarehouses ? this.productWarehouses.length : 0);
   }
 }

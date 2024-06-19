@@ -17,19 +17,4 @@ export class WarehouseResolver {
   async getWarehouseDetails(@Args({ name: 'id', type: () => Int }) id: number): Promise<Warehouse> {
     return await this.warehouseService.findByID(id);
   }
-
-  // @Query(returns => User, { name: 'user', nullable: true })
-  // async getUserById(@Args({ name: 'id', type: () => Int }) id: number) {
-  //   return this.userService.findById(id);
-  // }
-// 
-  // @Mutation(() => User, { name: 'createUser'})
-  // async createUser(@Args('data') input: UserInput): Promise<User> {
-  //   return this.userService.createUser(input);
-  // }
-// 
-  // @ResolveField('teams', () => [Team], {nullable: false})
-  // async getTeams(@Parent() user: User) {
-  //   return await user.teams;
-  // }
 }
