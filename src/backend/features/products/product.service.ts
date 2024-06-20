@@ -15,4 +15,8 @@ export class ProductService {
     const product = this.productRepository.create(createProductDto);
     return this.productRepository.save(product);
   }
+
+  async findAll(): Promise<Product[]> {
+    return this.productRepository.find();
+  }
 }

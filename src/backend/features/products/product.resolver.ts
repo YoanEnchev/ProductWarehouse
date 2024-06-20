@@ -1,4 +1,4 @@
-import { Resolver, Mutation, Args } from '@nestjs/graphql';
+import { Resolver, Mutation, Args, Query } from '@nestjs/graphql';
 import { ProductService } from './product.service';
 import { Product } from './product.entity';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -12,5 +12,10 @@ export class ProductResolver {
     @Args('createProductDto') createProductDto: CreateProductDto,
   ): Promise<Product> {
     return this.productService.create(createProductDto);
+  }
+
+  @Query(returns => [Product!], { name: 'AllProducts', nullable: false })
+  async getAllProducts(): Promise<Product[]> {
+    return await this.productService.findAll();
   }
 }

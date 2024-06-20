@@ -1,14 +1,14 @@
 import React, {FC} from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import Home from './Home';
-import ProductEntry from './ProductEntry';
-import ProductMovements from './ProductMovements';
-import NotFoundRoute from './NotFoundRoute';
+import Home from './routes/Home';
+import ProductManagement from './routes/ProductManagement';
+import WarehousesAndMovements from './routes/WarehousesAndMovements';
+import NotFoundRoute from './routes/NotFoundRoute';
 
 enum RoutePaths {
     Home = '/app/',
-    ProductEntry = '/app/product-entry',
-    ProductMovements = '/app/products-movements',
+    ProductManagement = '/app/product-management',
+    WarehousesAndMovements = '/app/warehouses',
 }
 
 const App: FC = () => {
@@ -27,10 +27,10 @@ const App: FC = () => {
                                     <Link to={RoutePaths.Home} className="nav-link">Home</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link to={RoutePaths.ProductEntry} className="nav-link">Product Entry</Link>
+                                    <Link to={RoutePaths.ProductManagement} className="nav-link">Products Management</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link to={RoutePaths.ProductMovements} className="nav-link">Products Movements</Link>
+                                    <Link to={RoutePaths.WarehousesAndMovements} className="nav-link">Warehouses And Movements</Link>
                                 </li>
                             </ul>
                         </div>
@@ -39,8 +39,8 @@ const App: FC = () => {
                 <div className="container mt-3">
                     <Routes>
                         <Route path={RoutePaths.Home} element={<Home />} />
-                        <Route path={RoutePaths.ProductEntry} element={<ProductEntry />} />
-                        <Route path={RoutePaths.ProductMovements} element={<ProductMovements />} />
+                        <Route path={RoutePaths.ProductManagement} element={<ProductManagement />} />
+                        <Route path={RoutePaths.WarehousesAndMovements} element={<WarehousesAndMovements />} />
                         <Route path="*" element={<NotFoundRoute/>}/>
                     </Routes>
                 </div>

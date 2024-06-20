@@ -13,4 +13,8 @@ export class HistoricExportService {
   getAll(): Promise<HistoricExport[]|null> {
     return this.historicExportsRepository.find();
   }
+
+  create(): Promise<HistoricExport> {
+    return this.historicExportsRepository.save({});
+  }
 }

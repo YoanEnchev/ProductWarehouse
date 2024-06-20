@@ -1,14 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useQuery, gql, useLazyQuery } from '@apollo/client';
-
-const ALL_WAREHOUSES_QUERY = gql`
-  query {
-    AllWarehouses {
-      id
-      name
-    }
-  }
-`;
+import React, { FC, useState } from 'react';
+import { gql, useLazyQuery } from '@apollo/client';
+import IWarehousesList from './IWarehousesList';
 
 const WAREHOUSE_DETAILS_QUERY = gql`
   query GetWarehouseDetails($id: Int!) {
@@ -41,13 +33,9 @@ const WAREHOUSE_DETAILS_QUERY = gql`
   }   
 `;
 
-const ProductMovements: React.FC = () => {
-  const { data: allWarehousesData, loading: allWarehousesLoading, error: allWarehousesError } = useQuery(ALL_WAREHOUSES_QUERY);
+const WarehousesList: FC<IWarehousesList> = ({ warehousesList }) => {
   const [getWarehouse, { data: warehouseDetailsData, loading: warehouseDetailsLoading, error: warehouseDetailsError }] = useLazyQuery(WAREHOUSE_DETAILS_QUERY);
   const [activeWarehouseId, setActiveWarehouseId] = useState<number | null>(null);
-
-  if (allWarehousesLoading) return "Loading...";
-  if (allWarehousesError) return <pre>{allWarehousesError.message}</pre>;
 
   const handleWarehouseSelection = (id: number) => {
     setActiveWarehouseId(id);
@@ -58,11 +46,10 @@ const ProductMovements: React.FC = () => {
 
   return (
     <div>
-      <h1>Product Movements</h1>
-      <p>Select warehouse and track movements.</p>
+      <p>Select warehouse and view details.</p>
 
       <ul className="nav nav-pills">
-        {allWarehousesData.AllWarehouses.map((warehouse) => (
+        {warehousesList.map((warehouse) => (
           <li className="nav-item" key={warehouse.id}>
             <button
               className={"nav-link" + (warehouse.id === activeWarehouseId ? ' active' : '')}
@@ -87,4 +74,4 @@ const ProductMovements: React.FC = () => {
   );
 };
 
-export default ProductMovements;
+export default WarehousesList;
